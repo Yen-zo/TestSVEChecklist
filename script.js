@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-//Data for the actual items in the boxes  
+
 
   const SEASONS = {
   SPRING: "Spring",
@@ -10,8 +10,11 @@ document.addEventListener("DOMContentLoaded", () => {
   ANY: "Any"
 };
 
+   const tooltip = document.createElement("div");
+tooltip.className = "tooltip"; 
+document.body.appendChild(tooltip);
 
-  function setupBundle(bundle) {
+ function setupBundle(bundle) {
   const mediumBox = document.getElementById(bundle.id);
   if (!mediumBox) return;
 
@@ -19,10 +22,37 @@ document.addEventListener("DOMContentLoaded", () => {
   const titleElement = mediumBox.querySelector(".medium-title");
   titleElement.textContent = `0/${bundle.required} ${bundle.title}`;
 
-  // Create container for small boxes (only once)
+  // Create container (only once)
   const smallContainer = document.createElement("div");
   smallContainer.className = "small-container";
   mediumBox.appendChild(smallContainer);
+
+  // Create all small boxes
+  bundle.items.forEach(item => {
+    const smallBox = document.createElement("div");
+    smallBox.className = "small-box";
+    smallBox.id = item.id;
+
+    smallBox.dataset.seasons = JSON.stringify(item.season || []);
+    smallBox.dataset.tooltipText = item.tooltipText || "";
+
+    const img = document.createElement("img");
+    img.src = item.image;
+    img.alt = item.name;
+    img.className = "small-box-img";
+
+    const label = document.createElement("div");
+    label.className = "small-box-label";
+
+    label.textContent = item.amount
+      ? `${item.amount} ${item.name}`
+      : item.name;
+
+    smallBox.appendChild(img);
+    smallBox.appendChild(label);
+
+    smallContainer.appendChild(smallBox);
+  });
 
   return smallContainer;
 }
@@ -118,47 +148,8 @@ const craftsRoomData = [
 ];
 
   
-  
-  //GOTTA CLEAN UP
-  
-  
+craftsRoomData[0].bundles.forEach(setupBundle);
 
-
-craftsRoomData[0].bundles.forEach(bundle => {
-  const smallContainer = setupBundle(bundle);
-
-
-
-  
-  // Generate small boxes
-  bundle.items.forEach(item => {
-    const smallBox = document.createElement("div");
-    smallBox.className = "small-box";
-    smallBox.id = item.id;
-    smallBox.dataset.seasons = JSON.stringify(item.season);
-
-
-    // Create image
-    const img = document.createElement("img");
-    img.src = item.image;
-    img.alt = item.name;
-    img.className = "small-box-img";
-
-    // Create label (amount + name)
-    const label = document.createElement("div");
-    label.className = "small-box-label";
-    label.textContent = `${item.amount} ${item.name}`;
-
-    // Append image + label
-    smallBox.appendChild(img);
-    smallBox.appendChild(label);
-
-    // Tooltip text
-    smallBox.dataset.tooltipText = item.tooltipText || "";
-
-    smallContainer.appendChild(smallBox);
-  });
-});
 // --- End of Crafts Room (BB1) Code ---
 
   
@@ -252,40 +243,7 @@ const pantryData = [
     ]
   }
 ];
-
-
-pantryData[0].bundles.forEach(bundle => {
-  const smallContainer = setupBundle(bundle);
-
-  // Generate small boxes
-  bundle.items.forEach(item => {
-    const smallBox = document.createElement("div");
-    smallBox.className = "small-box";
-    smallBox.id = item.id;
-    smallBox.dataset.seasons = JSON.stringify(item.season);
-
-
-    // Create image
-    const img = document.createElement("img");
-    img.src = item.image;
-    img.alt = item.name;
-    img.className = "small-box-img";
-
-    // Create label (amount + name)
-    const label = document.createElement("div");
-    label.className = "small-box-label";
-    label.textContent = `${item.amount} ${item.name}`;
-
-    // Append image + label
-    smallBox.appendChild(img);
-    smallBox.appendChild(label);
-
-    // Tooltip text
-    smallBox.dataset.tooltipText = item.tooltipText || "";
-
-    smallContainer.appendChild(smallBox);
-  });
-});
+pantryData[0].bundles.forEach(setupBundle);
 // --- End of Pantry (BB2) Code ---
 
   
@@ -380,41 +338,7 @@ const fishTankData = [
 ];
 
 
-
-
-fishTankData[0].bundles.forEach(bundle => {
-  const smallContainer = setupBundle(bundle);
-
-
-  // Generate small boxes
-  bundle.items.forEach(item => {
-    const smallBox = document.createElement("div");
-    smallBox.className = "small-box";
-    smallBox.id = item.id;
-    smallBox.dataset.seasons = JSON.stringify(item.season);
-
-
-    // Create image
-    const img = document.createElement("img");
-    img.src = item.image;
-    img.alt = item.name;
-    img.className = "small-box-img";
-
-    // Create label (amount + name)
-    const label = document.createElement("div");
-    label.className = "small-box-label";
-    label.textContent = `${item.amount} ${item.name}`;
-
-    // Append image + label
-    smallBox.appendChild(img);
-    smallBox.appendChild(label);
-
-    // Tooltip text
-    smallBox.dataset.tooltipText = item.tooltipText || "";
-
-    smallContainer.appendChild(smallBox);
-  });
-});
+fishTankData[0].bundles.forEach(setupBundle);
 // --- End of Fish Tank (BB3) Code ---
 
   
@@ -461,40 +385,10 @@ const boilerRoomData = [
     ],
   },
 ];
-boilerRoomData[0].bundles.forEach(bundle => {
-  const smallContainer = setupBundle(bundle);
 
 
+  boilerRoomData[0].bundles.forEach(setupBundle);
 
-  // Generate small boxes
-  bundle.items.forEach(item => {
-    const smallBox = document.createElement("div");
-    smallBox.className = "small-box";
-    smallBox.id = item.id;
-    smallBox.dataset.seasons = JSON.stringify(item.season);
-
-
-    // Create image
-    const img = document.createElement("img");
-    img.src = item.image;
-    img.alt = item.name;
-    img.className = "small-box-img";
-
-    // Create label
-    const label = document.createElement("div");
-    label.className = "small-box-label";
-    label.textContent = item.name;
-
-    // Append image + label
-    smallBox.appendChild(img);
-    smallBox.appendChild(label);
-
-    // Tooltip text
-    smallBox.dataset.tooltipText = item.tooltipText || "";
-
-    smallContainer.appendChild(smallBox);
-  });
-});
 
   
   
@@ -570,41 +464,9 @@ const bulletinBoardData = [
   },
 ];
 
-bulletinBoardData[0].bundles.forEach(bundle => {
-  const smallContainer = setupBundle(bundle);
-
-
-  bundle.items.forEach(item => {
-    const smallBox = document.createElement("div");
-    smallBox.className = "small-box";
-    smallBox.id = item.id;
-    smallBox.dataset.seasons = JSON.stringify(item.season);
-
-
-    // Create image
-    const img = document.createElement("img");
-    img.src = item.image;
-    img.alt = item.name;
-    img.className = "small-box-img";
-
-    // Create label
-    const label = document.createElement("div");
-    label.className = "small-box-label";
-    label.textContent = item.name;
-
-    // Append image + label
-    smallBox.appendChild(img);
-    smallBox.appendChild(label);
-
-    // Tooltip
-    smallBox.dataset.tooltipText = item.tooltipText || "";
-
   
+  bulletinBoardData[0].bundles.forEach(setupBundle);
 
-    smallContainer.appendChild(smallBox);
-  });
-});  
-  
   
   
   //  ‎ 
@@ -649,42 +511,17 @@ const vaultData = [
     ],
   },
 ];
-vaultData[0].bundles.forEach(bundle => {
-  const smallContainer = setupBundle(bundle);
 
-
-
-  // Generate small boxes
-  bundle.items.forEach(item => {
-    const smallBox = document.createElement("div");
-    smallBox.className = "small-box";
-    smallBox.id = item.id;
-    smallBox.dataset.seasons = JSON.stringify(item.season);
-
-
-    // Create image
-    const img = document.createElement("img");
-    img.src = item.image;
-    img.alt = item.name;
-    img.className = "small-box-img";
-
-    // Create label (amount + name)
-    const label = document.createElement("div");
-    label.className = "small-box-label";
-    label.textContent = `${item.amount} ${item.name}`;
-
-    // Append image + label
-    smallBox.appendChild(img);
-    smallBox.appendChild(label);
-
-    // Tooltip text
-    smallBox.dataset.tooltipText = item.tooltipText || "";
-
-    smallContainer.appendChild(smallBox);
-  });
-});
+   vaultData[0].bundles.forEach(setupBundle);
+  
 // --- End of Vault (BB6) Code ---
 
+
+
+
+
+
+  
  // --- Misc Functions ---
 
 // Add minimize buttons to all Big Boxes
@@ -732,9 +569,7 @@ document.addEventListener("mouseover", e => {
 
   
   
-  const tooltip = document.createElement("div");
-tooltip.className = "tooltip"; // style this in CSS
-document.body.appendChild(tooltip);
+ 
 
 document.addEventListener("mouseover", e => {
   const smallBox = e.target.closest(".small-box");
