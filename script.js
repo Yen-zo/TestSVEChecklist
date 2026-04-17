@@ -13,7 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
    const tooltip = document.createElement("div");
 tooltip.className = "tooltip"; 
 document.body.appendChild(tooltip);
-
+/*====================
+  BIG FUNCTION DONT TOUCH
+====================*/
  function setupBundle(bundle) {
   const mediumBox = document.getElementById(bundle.id);
   if (!mediumBox) return;
