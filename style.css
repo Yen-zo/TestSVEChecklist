@@ -1,0 +1,263 @@
+/* ==============================
+   GLOBAL STYLES
+============================== */
+body {
+  margin: 0; /* FIXED: was `margin: flex` (invalid) */
+  background-color: black;
+  color: white;
+  font-family: system-ui, sans-serif;
+  overflow-y: scroll;
+}
+
+.hidden {
+  display: none;
+}
+
+
+.title {
+  text-align: center;
+  padding: 1.5rem 0;
+  font-size: 2rem;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding-bottom: 2rem;
+}
+
+/* ==============================
+   SEASON FILTER
+============================== */
+.season-filter {
+  width: 500px;
+  text-align: center;
+  background-color: #222;
+  padding: 10px 0 20px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 9px;
+}
+
+.season-text {
+  font-size: 16px;
+}
+
+
+/* ==============================
+   SEASON BUTTON COLORS
+============================== */
+.season-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.season-btn {
+  padding: 8px 14px;
+  cursor: pointer;
+  background-color: #555;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.season-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Active season colors */
+.season-btn.spring.active {
+  background-color: #4caf50; /* green */
+}
+
+.season-btn.summer.active {
+  background-color: #fbc02d; /* yellow */
+  color: black;
+}
+
+.season-btn.fall.active {
+  background-color: #ff8f00; /* orange */
+}
+
+.season-btn.winter.active {
+  background-color: #81d4fa; /* light blue */
+  color: black;
+}
+
+/* ==============================
+   BIG BOXES (BB)
+============================== */
+.big-box {
+  position: relative;
+  width: 80%;
+  min-height: 45vh;
+  background-color: #222;
+  border-radius: 12px;
+  border: 2px solid #444;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.box-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.minimize-btn {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #ccc;
+  cursor: pointer;
+}
+
+.big-box.minimized {
+  min-height: auto;
+  height: auto;
+  overflow: hidden;
+  padding-bottom: 0.5rem;
+}
+
+.big-box.minimized .medium-container {
+  display: none;
+}
+
+/* ==============================
+   MEDIUM BOXES (MB)
+============================== */
+.medium-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.medium-box {
+  background-color: #333;
+  border: 1px solid #555;
+  border-radius: 8px;
+  min-height: 10rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.medium-title {
+  font-size: 1rem;
+  margin: 0;
+  text-align: center;
+}
+
+/* ==============================
+   SMALL BOXES (SB)
+============================== */
+.small-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.5rem;
+  justify-content: center;
+}
+
+.small-box {
+  width: 5rem;
+  height: 5.5rem;
+  background-color: #444;
+  border: 1px solid #777;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.3rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, filter 0.2s ease;
+}
+
+.small-box:hover {
+  transform: scale(1.05);
+}
+
+.small-box-img {
+  width: 3.5rem;
+  height: 3.5rem;
+  object-fit: contain;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+.small-box-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 0 4px #000;
+  line-height: 1.1;
+  pointer-events: none;
+}
+
+/* Completed state */
+.small-box.completed {
+  filter: brightness(0.4);
+}
+
+.small-box.completed::after {
+  content: "✖";
+  position: absolute;
+  font-size: 2rem;
+  color: red;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* ==============================
+   TOOLTIP
+============================== */
+.tooltip {
+  position: absolute;
+  background-color: #444;
+  color: white;
+  border: 1px solid #666;
+  border-radius: 8px;
+  padding: 0.5rem;
+  width: 200px;
+  z-index: 100;
+  pointer-events: none;
+  display: none;
+}
+
+.tooltip-header {
+  font-weight: bold;
+}
+
+.tooltip-subheader {
+  font-weight: bold;
+  font-size: 0.95rem;
+  margin-top: 0.25rem;
+}
+
+.tooltip-divider {
+  border-top: 1px solid #777;
+  margin: 0.25rem 0;
+}
+
+.tooltip-list {
+  margin-left: 1rem;
+  font-size: 0.9rem;
+}
