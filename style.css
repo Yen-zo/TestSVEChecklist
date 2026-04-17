@@ -124,6 +124,26 @@ main {
   cursor: pointer;
 }
 
+.minimize-button {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 25px;
+  height: 25px;
+  border: none;
+  border-radius: 50%;
+  background-color: #ccc;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 22px;
+}
+.big-box {
+  position: relative;
+}
+
+
+
 .big-box.minimized {
   min-height: auto;
   height: auto;
