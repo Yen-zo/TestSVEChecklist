@@ -518,24 +518,17 @@ const vaultData = [
   
 // --- End of Vault (BB6) Code ---
 
-
-
-
-
-
-  
- // --- Misc Functions ---
-
-// Add minimize buttons to all Big Boxes
+// --- Misc Functions ---
+// ===============================
+// BIG BOX CONTROLS
+// ===============================
 document.querySelectorAll(".big-box").forEach(bigBox => {
   const minimizeButton = document.createElement("button");
   minimizeButton.className = "minimize-button";
-  minimizeButton.textContent = "–"; // Start with minus sign
+  minimizeButton.textContent = "–";
 
-  
+  // UI setup (could be CSS, but JS is fine if dynamic)
   bigBox.style.position = "relative";
-
-  
 
   bigBox.appendChild(minimizeButton);
 
@@ -545,54 +538,58 @@ document.querySelectorAll(".big-box").forEach(bigBox => {
   });
 });
 
-  // --- Mouseove Function ---
+
+// ===============================
+// TOOLTIP SYSTEM
+// ===============================
 document.addEventListener("mouseover", e => {
   const settingsBtn = e.target.closest("#settingsBtn");
   const smallBox = e.target.closest(".small-box");
 
-  // --- Settings tooltip ---
+  // ---- SETTINGS TOOLTIP ----
   if (settingsBtn) {
     tooltip.innerHTML = `<div class="tooltip-header">Open Settings</div>`;
     tooltip.style.display = "block";
     return;
   }
 
-  // --- Small box tooltip ---
-  if (smallBox) {
-    const itemName = smallBox.textContent.replace(/^\d+\s/, '');
-    const tooltipText = smallBox.dataset.tooltipText;
-    const isVaultItem = smallBox.closest("#box6");
+  // ---- SMALL BOX TOOLTIP ----
+  if (!smallBox) return;
 
-    if (isVaultItem) {
-      tooltip.innerHTML = `
-        <div class="tooltip-header">Vault Bundle</div>
-        <div class="tooltip-text">${smallBox.textContent}</div>
-      `;
-    } 
-    else if (tooltipText?.trim()) {
-      const sources = tooltipText
-        .split(/\b(?:OR|,|;)\b/i)
-        .map(s => s.trim())
-        .filter(Boolean);
+  const itemName = smallBox.textContent.replace(/^\d+\s/, "");
+  const tooltipText = smallBox.dataset.tooltipText;
+  const isVaultItem = smallBox.closest("#box6");
 
-      tooltip.innerHTML = `
-        <div class="tooltip-header">${itemName}</div>
-        <div class="tooltip-subheader">Sources</div>
-        <hr class="tooltip-divider">
-        <ul class="tooltip-list">
-          ${sources.map(s => `<li>${s}</li>`).join("")}
-        </ul>
-      `;
-    } 
-    else {
-      tooltip.innerHTML = `<div class="tooltip-header">${itemName}</div>`;
-    }
+  if (isVaultItem) {
+    tooltip.innerHTML = `
+      <div class="tooltip-header">Vault Bundle</div>
+      <div class="tooltip-text">${smallBox.textContent}</div>
+    `;
+  } 
+  else if (tooltipText?.trim()) {
+    const sources = tooltipText
+      .split(/\b(?:OR|,|;)\b/i)
+      .map(s => s.trim())
+      .filter(Boolean);
 
-    tooltip.style.display = "block";
+    tooltip.innerHTML = `
+      <div class="tooltip-header">${itemName}</div>
+      <div class="tooltip-subheader">Sources</div>
+      <hr class="tooltip-divider">
+      <ul class="tooltip-list">
+        ${sources.map(s => `<li>${s}</li>`).join("")}
+      </ul>
+    `;
+  } 
+  else {
+    tooltip.innerHTML = `<div class="tooltip-header">${itemName}</div>`;
   }
+
+  tooltip.style.display = "block";
 });
 
 
+// Move tooltip with mouse
 document.addEventListener("mousemove", e => {
   if (tooltip.style.display === "block") {
     tooltip.style.left = e.pageX + 15 + "px";
@@ -600,19 +597,29 @@ document.addEventListener("mousemove", e => {
   }
 });
 
+
+// Hide tooltip
 document.addEventListener("mouseout", e => {
-  if (e.target.closest(".small-box")) tooltip.style.display = "none";
+  if (e.target.closest(".small-box")) {
+    tooltip.style.display = "none";
+  }
 });
 
 
-
-  
-// --- Small Box Completion (delegated) ---
+// ===============================
+// SMALL BOX COMPLETION
+// ===============================
 document.addEventListener("click", e => {
   const smallBox = e.target.closest(".small-box");
   if (!smallBox) return;
 
+
   const mediumBox = smallBox.closest(".medium-box");
+
+  
+// TESTING
+  console.log("smallBox:", smallBox);
+console.log("mediumBox:", mediumBox);
   const titleElement = mediumBox.querySelector(".medium-title");
 
   smallBox.classList.toggle("completed");
@@ -620,52 +627,56 @@ document.addEventListener("click", e => {
 
   const total = mediumBox.querySelectorAll(".small-box").length;
   const completed = mediumBox.querySelectorAll(".small-box.completed").length;
+
   const cleanTitle = titleElement.textContent.replace(/^\d+\/\d+\s*/, "");
   titleElement.textContent = `${completed}/${total} ${cleanTitle}`;
 });
 
-  
-  
-// --- Season Filter Handler ---
+
+// ===============================
+// SEASON FILTER SYSTEM
+// ===============================
 const selectedSeasons = new Set();
+
 document.querySelectorAll(".season-btn").forEach(btn => {
- 
- btn.addEventListener("click", () => {
-  const season = btn.dataset.season;
-  const seasonClass = season.toLowerCase(); // spring, summer, fall, winter
+  btn.addEventListener("click", () => {
+    const season = btn.dataset.season;
+    const seasonClass = season.toLowerCase();
 
-  if (selectedSeasons.has(season)) {
-    selectedSeasons.delete(season);
-    btn.classList.remove("active", seasonClass);
-  } else {
-    selectedSeasons.add(season);
-    btn.classList.add("active", seasonClass);
-  }
+    if (selectedSeasons.has(season)) {
+      selectedSeasons.delete(season);
+      btn.classList.remove("active", seasonClass);
+    } else {
+      selectedSeasons.add(season);
+      btn.classList.add("active", seasonClass);
+    }
 
-  applySeasonFilter();
-});
-
+    applySeasonFilter();
+  });
 });
 
 function applySeasonFilter() {
   document.querySelectorAll(".small-box").forEach(box => {
     const itemSeasons = JSON.parse(box.dataset.seasons);
-    box.style.display = selectedSeasons.size === 0 ||
-                        itemSeasons.includes("Any") ||
-                        [...selectedSeasons].some(s => itemSeasons.includes(s)) ? "" : "none";
+
+    const visible =
+      selectedSeasons.size === 0 ||
+      itemSeasons.includes("Any") ||
+      [...selectedSeasons].some(s => itemSeasons.includes(s));
+
+    box.style.display = visible ? "" : "none";
   });
 }
-  
-  
-  
-
-});
-
 
 /*
-THINGS IVE CHANGED
+===   THINGS IVE CHANGED   ===
+1. Combined the setup of all the data into one big function thats called multiple times instead of restating it each big box, saving 200 lines of code
 
-combined the setup of all the data into one big function thats called multiple times instead of restating it each big box, saving 200 lines of code
+2. Combined the 2 mouseover functuon
 
-combined the 2 mouseover functuon
+===   NEEDS TO CHANGE  ===
+
+1. instead of saying the season, add icons of the seasons, then in the season filter, add them there too so people know what the season icon means
+
+2. Add the "Nothing can be traditionally gotten in this season(s)" text on the MBs
 */
