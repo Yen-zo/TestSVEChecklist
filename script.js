@@ -613,13 +613,11 @@ document.addEventListener("click", e => {
   const smallBox = e.target.closest(".small-box");
   if (!smallBox) return;
 
+  const mediumBox = smallBox.closest(".big-box");
 
-  const mediumBox = smallBox.closest(".medium-box");
-
-  
-// TESTING
   console.log("smallBox:", smallBox);
-console.log("mediumBox:", mediumBox);
+  console.log("mediumBox:", mediumBox);
+
   const titleElement = mediumBox.querySelector(".medium-title");
 
   smallBox.classList.toggle("completed");
