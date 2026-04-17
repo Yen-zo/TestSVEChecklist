@@ -10,6 +10,24 @@ document.addEventListener("DOMContentLoaded", () => {
   ANY: "Any"
 };
 
+
+  function setupBundle(bundle) {
+  const mediumBox = document.getElementById(bundle.id);
+  if (!mediumBox) return;
+
+  // Set medium box title with 0/x
+  const titleElement = mediumBox.querySelector(".medium-title");
+  titleElement.textContent = `0/${bundle.required} ${bundle.title}`;
+
+  // Create container for small boxes (only once)
+  const smallContainer = document.createElement("div");
+  smallContainer.className = "small-container";
+  mediumBox.appendChild(smallContainer);
+
+  return smallContainer;
+}
+
+
 // --- Start of Crafts Room (BB1) Code ---
   
 
@@ -104,18 +122,14 @@ const craftsRoomData = [
   //GOTTA CLEAN UP
   
   
+
+
 craftsRoomData[0].bundles.forEach(bundle => {
-  const mediumBox = document.getElementById(bundle.id);
+  const smallContainer = setupBundle(bundle);
 
-  // Set medium box title with 0/x
-  const titleElement = mediumBox.querySelector(".medium-title");
-  titleElement.textContent = `0/${bundle.required} ${bundle.title}`;
 
-  // Create container for small boxes
-  const smallContainer = document.createElement("div");
-  smallContainer.className = "small-container";
-  mediumBox.appendChild(smallContainer);
 
+  
   // Generate small boxes
   bundle.items.forEach(item => {
     const smallBox = document.createElement("div");
@@ -241,16 +255,7 @@ const pantryData = [
 
 
 pantryData[0].bundles.forEach(bundle => {
-  const mediumBox = document.getElementById(bundle.id);
-
-  // Set medium box title with 0/x
-  const titleElement = mediumBox.querySelector(".medium-title");
-  titleElement.textContent = `0/${bundle.required} ${bundle.title}`;
-
-  // Create container for small boxes
-  const smallContainer = document.createElement("div");
-  smallContainer.className = "small-container";
-  mediumBox.appendChild(smallContainer);
+  const smallContainer = setupBundle(bundle);
 
   // Generate small boxes
   bundle.items.forEach(item => {
@@ -376,17 +381,10 @@ const fishTankData = [
 
 
 
+
 fishTankData[0].bundles.forEach(bundle => {
-  const mediumBox = document.getElementById(bundle.id);
+  const smallContainer = setupBundle(bundle);
 
-  // Set medium box title with 0/x
-  const titleElement = mediumBox.querySelector(".medium-title");
-  titleElement.textContent = `0/${bundle.required} ${bundle.title}`;
-
-  // Create container for small boxes
-  const smallContainer = document.createElement("div");
-  smallContainer.className = "small-container";
-  mediumBox.appendChild(smallContainer);
 
   // Generate small boxes
   bundle.items.forEach(item => {
@@ -463,18 +461,10 @@ const boilerRoomData = [
     ],
   },
 ];
-
 boilerRoomData[0].bundles.forEach(bundle => {
-  const mediumBox = document.getElementById(bundle.id);
+  const smallContainer = setupBundle(bundle);
 
-  // Set medium box title with 0/x
-  const titleElement = mediumBox.querySelector(".medium-title");
-  titleElement.textContent = `0/${bundle.required} ${bundle.title}`;
 
-  // Create container for small boxes
-  const smallContainer = document.createElement("div");
-  smallContainer.className = "small-container";
-  mediumBox.appendChild(smallContainer);
 
   // Generate small boxes
   bundle.items.forEach(item => {
@@ -580,15 +570,9 @@ const bulletinBoardData = [
   },
 ];
 
-
 bulletinBoardData[0].bundles.forEach(bundle => {
-  const mediumBox = document.getElementById(bundle.id);
-  const titleElement = mediumBox.querySelector(".medium-title");
-  titleElement.textContent = `0/${bundle.required} ${bundle.title}`;
+  const smallContainer = setupBundle(bundle);
 
-  const smallContainer = document.createElement("div");
-  smallContainer.className = "small-container";
-  mediumBox.appendChild(smallContainer);
 
   bundle.items.forEach(item => {
     const smallBox = document.createElement("div");
@@ -665,18 +649,10 @@ const vaultData = [
     ],
   },
 ];
-
 vaultData[0].bundles.forEach(bundle => {
-  const mediumBox = document.getElementById(bundle.id);
+  const smallContainer = setupBundle(bundle);
 
-  // Set medium box title with 0/x
-  const titleElement = mediumBox.querySelector(".medium-title");
-  titleElement.textContent = `0/${bundle.required} ${bundle.title}`;
 
-  // Create container for small boxes
-  const smallContainer = document.createElement("div");
-  smallContainer.className = "small-container";
-  mediumBox.appendChild(smallContainer);
 
   // Generate small boxes
   bundle.items.forEach(item => {
