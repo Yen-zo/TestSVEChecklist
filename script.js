@@ -613,7 +613,7 @@ document.addEventListener("click", e => {
   const smallBox = e.target.closest(".small-box");
   if (!smallBox) return;
 
-  const mediumBox = smallBox.closest(".medium-box");
+  const mediumBox = smallBox.closest(".big-box");
 
   console.log("smallBox:", smallBox);
   console.log("mediumBox:", mediumBox);
