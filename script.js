@@ -545,39 +545,53 @@ document.querySelectorAll(".big-box").forEach(bigBox => {
   });
 });
 
-// Generate medium and small boxes placeholder
-// (Assume your bundle generation code runs elsewhere)
-
-// --- Tooltips (delegated to handle dynamic SBs) ---
+  // --- Mouseove Function ---
 document.addEventListener("mouseover", e => {
   const settingsBtn = e.target.closest("#settingsBtn");
-  if (!settingsBtn) return;
-
-  tooltip.innerHTML = `<div class="tooltip-header">Open Settings</div>`;
-  tooltip.style.display = "block";
-});
-
-  
-  
- 
-
-document.addEventListener("mouseover", e => {
   const smallBox = e.target.closest(".small-box");
-  if (!smallBox) return;
 
-  const itemName = smallBox.textContent.replace(/^\d+\s/, '');
-  const tooltipText = smallBox.dataset.tooltipText;
-  const isVaultItem = smallBox.closest("#box6") !== null;
-
-  if (isVaultItem) {
-    tooltip.innerHTML = `<div class="tooltip-header">Vault Bundle</div><div class="tooltip-text">${smallBox.textContent}</div>`;
-  } else if (tooltipText && tooltipText.trim() !== "") {
-    const sources = tooltipText.split(/\b(?:OR|,|;)\b/i).map(s => s.trim()).filter(s => s.length);
-    const sourceListHTML = sources.map(s => `<li>${s}</li>`).join("");
-    tooltip.innerHTML = `<div class="tooltip-header">${itemName}</div><div class="tooltip-subheader">Sources</div><hr class="tooltip-divider"><ul class="tooltip-list">${sourceListHTML}</ul>`;
+  // --- Settings tooltip ---
+  if (settingsBtn) {
+    tooltip.innerHTML = `<div class="tooltip-header">Open Settings</div>`;
+    tooltip.style.display = "block";
+    return;
   }
-  tooltip.style.display = "block";
+
+  // --- Small box tooltip ---
+  if (smallBox) {
+    const itemName = smallBox.textContent.replace(/^\d+\s/, '');
+    const tooltipText = smallBox.dataset.tooltipText;
+    const isVaultItem = smallBox.closest("#box6");
+
+    if (isVaultItem) {
+      tooltip.innerHTML = `
+        <div class="tooltip-header">Vault Bundle</div>
+        <div class="tooltip-text">${smallBox.textContent}</div>
+      `;
+    } 
+    else if (tooltipText?.trim()) {
+      const sources = tooltipText
+        .split(/\b(?:OR|,|;)\b/i)
+        .map(s => s.trim())
+        .filter(Boolean);
+
+      tooltip.innerHTML = `
+        <div class="tooltip-header">${itemName}</div>
+        <div class="tooltip-subheader">Sources</div>
+        <hr class="tooltip-divider">
+        <ul class="tooltip-list">
+          ${sources.map(s => `<li>${s}</li>`).join("")}
+        </ul>
+      `;
+    } 
+    else {
+      tooltip.innerHTML = `<div class="tooltip-header">${itemName}</div>`;
+    }
+
+    tooltip.style.display = "block";
+  }
 });
+
 
 document.addEventListener("mousemove", e => {
   if (tooltip.style.display === "block") {
@@ -590,6 +604,9 @@ document.addEventListener("mouseout", e => {
   if (e.target.closest(".small-box")) tooltip.style.display = "none";
 });
 
+
+
+  
 // --- Small Box Completion (delegated) ---
 document.addEventListener("click", e => {
   const smallBox = e.target.closest(".small-box");
@@ -648,30 +665,7 @@ function applySeasonFilter() {
 /*
 THINGS IVE CHANGED
 
-1. Added season sorter to make items only gettable in certain seasons shown
+combined the setup of all the data into one big function thats called multiple times instead of restating it each big box, saving 200 lines of code
 
-2. Added saving information so reloading the page wont reset your progress
-
-3. Styling for season tracker box
-
-
-THINGS TO CHANGE BEFORE DEADLINE
-
-
-
-2. Progress bar like cod zomvies camo tracker
-
-
-4. " ? " circle in bottom left corner, explaining changes made and how stuff works
-
-5. " 🤑 " emoji in the bottom right corner, shameless plug to support me (may need to make it a image if the emoji stays italizaed (or js rotate the emoji)
-
-6. Exclusitivty or accessible feature for seasons sorter. 
-
-7. Feild Research purple mushroom and Dye red mushroom file names having a space between them and the (1) (there should be no space)
-
-
-
-
-
+combined the 2 mouseover functuon
 */
