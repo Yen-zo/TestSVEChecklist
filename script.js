@@ -532,22 +532,10 @@ document.querySelectorAll(".big-box").forEach(bigBox => {
   minimizeButton.className = "minimize-button";
   minimizeButton.textContent = "–"; // Start with minus sign
 
-  // Basic positioning
+  
   bigBox.style.position = "relative";
-  Object.assign(minimizeButton.style, {
-    position: "absolute",
-    top: "5px",
-    left: "5px",
-    width: "25px",
-    height: "25px",
-    border: "none",
-    borderRadius: "50%",
-    backgroundColor: "#ccc",
-    cursor: "pointer",
-    fontSize: "18px",
-    fontWeight: "bold",
-    lineHeight: "22px"
-  });
+
+  
 
   bigBox.appendChild(minimizeButton);
 
@@ -669,7 +657,7 @@ THINGS IVE CHANGED
 
 THINGS TO CHANGE BEFORE DEADLINE
 
-1. Make images Files instead of links (was the main goal and i should of done from the start)
+
 
 2. Progress bar like cod zomvies camo tracker
 
