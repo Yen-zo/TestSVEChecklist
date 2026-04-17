@@ -664,7 +664,9 @@ function applySeasonFilter() {
 
     box.style.display = visible ? "" : "none";
   });
+  
 }
+   });
 
 /*
 ===   THINGS IVE CHANGED   ===
